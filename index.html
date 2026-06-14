@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>La Constitución Soy Yo — Guía Interactiva</title>
+
+<!-- PWA -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#7a1f2b">
+
+<!-- Open Graph -->
+<meta property="og:title" content="La Constitución Soy Yo — Guía Interactiva del libro de J. Mauricio Gaona">
+<meta property="og:description" content="Explora las tesis centrales del libro: cómo las democracias se desmantelan desde la propia Constitución, el 'democratic blending' y el dictador-demócrata.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://placehold.co/1200x630/7a1f2b/f5e9dc?text=La+Constituci%C3%B3n+Soy+Yo">
+<meta property="og:url" content="https://haroldco45.github.io/constitucion-soy-yo/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="La Constitución Soy Yo — Guía Interactiva">
+<meta name="twitter:description" content="Las tesis del libro de J. Mauricio Gaona sobre el desmantelamiento democrático, explicadas paso a paso.">
+<meta name="twitter:image" content="https://placehold.co/1200x630/7a1f2b/f5e9dc?text=La+Constituci%C3%B3n+Soy+Yo">
+
+<!-- Icons -->
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="icon" type="image/png" href="icon-192.png">
+
+<style>
+  :root{
+    --rojo: #7a1f2b;
+    --rojo-claro: #a8333f;
+    --crema: #f5e9dc;
+    --negro: #1c1a18;
+    --dorado: #c9a14a;
+    --gris: #6b6660;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html,body{
+    font-family: 'Georgia', 'Times New Roman', serif;
+    background: var(--crema);
+    color: var(--negro);
+    -webkit-tap-highlight-color: transparent;
+  }
+  body{
+    max-width: 480px;
+    margin: 0 auto;
+    min-height: 100vh;
+    display:flex;
+    flex-direction:column;
+    padding-bottom: 70px;
+  }
+
+  /* Header */
+  header{
+    background: linear-gradient(135deg, var(--rojo) 0%, var(--negro) 100%);
+    color: var(--crema);
+    padding: 28px 20px 22px;
+    text-align:center;
+    position:relative;
+    overflow:hidden;
+  }
+  header::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background: repeating-linear-gradient(45deg, rgba(201,161,74,0.06) 0 2px, transparent 2px 14px);
+    pointer-events:none;
+  }
+  header h1{
+    font-size: 1.5rem;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+    position:relative;
+  }
+  header .quote{
+    font-size: 0.95rem;
+    font-style: italic;
+    color: var(--dorado);
+    position:relative;
+  }
+  header .subtitle{
+    font-size: 0.78rem;
+    margin-top: 8px;
+    opacity:.85;
+    position:relative;
+  }
+  .clock{
+    font-size:0.72rem;
+    margin-top:10px;
+    opacity:.75;
+    font-family: monospace;
+    position:relative;
+  }
+
+  /* Nav tabs */
+  nav.tabs{
+    display:flex;
+    background:#fff;
+    border-bottom: 2px solid var(--rojo);
+    position: sticky;
+    top:0;
+    z-index:10;
+    overflow-x:auto;
+  }
+  nav.tabs button{
+    flex:1;
+    min-width: 90px;
+    padding: 12px 6px;
+    background:none;
+    border:none;
+    font-family:inherit;
+    font-size:0.78rem;
+    font-weight:bold;
+    color: var(--gris);
+    border-bottom: 3px solid transparent;
+    cursor:pointer;
+  }
+  nav.tabs button.active{
+    color: var(--rojo);
+    border-bottom-color: var(--rojo);
+  }
+
+  main{
+    flex:1;
+    padding: 18px 20px 10px;
+  }
+  .screen{display:none;animation: fade .25s ease;}
+  .screen.active{display:block;}
+  @keyframes fade{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+
+  h2{
+    font-size:1.15rem;
+    color:var(--rojo);
+    margin-bottom:10px;
+    border-left: 4px solid var(--dorado);
+    padding-left:10px;
+  }
+  h3{
+    font-size:1rem;
+    color:var(--negro);
+    margin: 16px 0 6px;
+  }
+  p{
+    font-size:0.92rem;
+    line-height:1.55;
+    margin-bottom:10px;
+    text-align:justify;
+  }
+  .card{
+    background:#fff;
+    border-radius:10px;
+    padding:16px;
+    margin-bottom:14px;
+    box-shadow:0 2px 6px rgba(0,0,0,0.08);
+    border-left: 5px solid var(--rojo);
+  }
+  .card.gold{border-left-color: var(--dorado);}
+  .card .tag{
+    display:inline-block;
+    background:var(--rojo);
+    color:#fff;
+    font-size:0.65rem;
+    font-weight:bold;
+    padding:3px 8px;
+    border-radius:20px;
+    margin-bottom:8px;
+    letter-spacing:0.5px;
+  }
+  .card.gold .tag{background:var(--dorado); color:var(--negro);}
+
+  /* Author */
+  .author-box{
+    display:flex;
+    gap:12px;
+    align-items:flex-start;
+    background:#fff;
+    border-radius:10px;
+    padding:14px;
+    margin-bottom:14px;
+    box-shadow:0 2px 6px rgba(0,0,0,0.06);
+  }
+  .author-box .icon{
+    font-size:2rem;
+    flex-shrink:0;
+  }
+
+  /* Quiz */
+  .quiz-q{
+    background:#fff;
+    border-radius:10px;
+    padding:16px;
+    margin-bottom:14px;
+    box-shadow:0 2px 6px rgba(0,0,0,0.08);
+  }
+  .quiz-q p.question{font-weight:bold; text-align:left; margin-bottom:12px;}
+  .opt{
+    display:block;
+    width:100%;
+    text-align:left;
+    padding:10px 12px;
+    margin-bottom:8px;
+    border:2px solid #ddd;
+    border-radius:8px;
+    background:#fafafa;
+    font-family:inherit;
+    font-size:0.85rem;
+    cursor:pointer;
+    transition: all .15s;
+  }
+  .opt.correct{border-color:#2e7d32; background:#e8f5e9; font-weight:bold;}
+  .opt.wrong{border-color:#c62828; background:#fdecea;}
+  .opt:disabled{cursor:default;}
+  .explain{
+    font-size:0.82rem;
+    margin-top:10px;
+    padding:10px;
+    background:#f5f1e6;
+    border-radius:8px;
+    display:none;
+    text-align:justify;
+  }
+  .explain.show{display:block;}
+
+  .progress-bar{
+    height:8px;
+    background:#e0d8c8;
+    border-radius:6px;
+    overflow:hidden;
+    margin: 4px 0 16px;
+  }
+  .progress-fill{
+    height:100%;
+    background: var(--rojo);
+    width:0%;
+    transition: width .3s;
+  }
+  .score-box{
+    text-align:center;
+    background:#fff;
+    border-radius:10px;
+    padding:20px;
+    box-shadow:0 2px 6px rgba(0,0,0,0.08);
+  }
+  .score-box .big{font-size:2.4rem; font-weight:bold; color:var(--rojo);}
+  .btn{
+    display:inline-block;
+    background:var(--rojo);
+    color:#fff;
+    border:none;
+    padding:10px 18px;
+    border-radius:8px;
+    font-family:inherit;
+    font-size:0.85rem;
+    font-weight:bold;
+    cursor:pointer;
+    margin-top:10px;
+  }
+  .btn.outline{
+    background:none;
+    border:2px solid var(--rojo);
+    color:var(--rojo);
+  }
+
+  /* Glossary */
+  .term{
+    background:#fff;
+    border-radius:10px;
+    padding:14px;
+    margin-bottom:10px;
+    box-shadow:0 2px 6px rgba(0,0,0,0.06);
+  }
+  .term .word{
+    font-weight:bold;
+    color:var(--rojo);
+    font-size:0.95rem;
+    cursor:pointer;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+  }
+  .term .def{
+    font-size:0.85rem;
+    margin-top:8px;
+    line-height:1.5;
+    display:none;
+    text-align:justify;
+  }
+  .term.open .def{display:block;}
+  .term .arrow{transition: transform .2s; font-size:0.8rem; color:var(--gris);}
+  .term.open .arrow{transform:rotate(90deg);}
+
+  footer{
+    text-align:center;
+    font-size:0.65rem;
+    color:var(--gris);
+    padding:14px 20px;
+    border-top:1px solid #e0d8c8;
+  }
+  .source-note{
+    font-size:0.72rem;
+    color:var(--gris);
+    text-align:center;
+    margin-top:6px;
+    font-style:italic;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>📕 La Constitución Soy Yo</h1>
+  <div class="quote">"Cuando la norma es el arma que desmantela la democracia"</div>
+  <div class="subtitle">Guía interactiva sobre el libro de J. Mauricio Gaona</div>
+  <div class="clock" id="clock">Cargando hora de Colombia…</div>
+</header>
+
+<nav class="tabs">
+  <button class="active" data-tab="inicio">Inicio</button>
+  <button data-tab="tesis">Tesis</button>
+  <button data-tab="glosario">Glosario</button>
+  <button data-tab="quiz">Quiz</button>
+  <button data-tab="autor">Autor</button>
+</nav>
+
+<main>
+
+  <!-- INICIO -->
+  <section class="screen active" id="inicio">
+    <h2>¿De qué trata el libro?</h2>
+    <div class="card">
+      <span class="tag">TESIS CENTRAL</span>
+      <p>El libro analiza cómo las democracias contemporáneas en América Latina no suelen morir por un golpe militar clásico, sino que son desmanteladas <strong>desde adentro</strong>: líderes elegidos democráticamente reinterpretan la propia Constitución hasta convertirla en una herramienta a su servicio, en vez de servir ellos a la Constitución.</p>
+    </div>
+    <div class="card gold">
+      <span class="tag">EL TÍTULO</span>
+      <p>"La Constitución soy yo" describe el momento en que un gobernante populista llega a identificarse a sí mismo con la norma suprema: lo que él decide se presenta como si fuera la propia Constitución, anulando los límites que ella debería imponerle.</p>
+    </div>
+    <div class="card">
+      <span class="tag">ENFOQUE</span>
+      <p>Combina historia, teoría política y derecho constitucional comparado, examinando casos de varios países para mostrar patrones comunes en el deterioro democrático del siglo XXI.</p>
+    </div>
+    <div class="card gold">
+      <span class="tag">¿POR QUÉ IMPORTA?</span>
+      <p>El autor advierte que el riesgo no se reconoce a tiempo porque ocurre de forma gradual y "legal": cada paso individual puede parecer normal, pero la suma de esos pasos termina vaciando de contenido a la democracia.</p>
+    </div>
+    <p class="source-note">Resumen elaborado a partir de reseñas y presentaciones públicas del libro (2026). Para el análisis completo, se recomienda la lectura de la obra original.</p>
+  </section>
+
+  <!-- TESIS -->
+  <section class="screen" id="tesis">
+    <h2>Ideas clave del libro</h2>
+
+    <div class="card">
+      <span class="tag">1 · EL "DICTADOR-DEMÓCRATA"</span>
+      <h3>Llegar por votos, quedarse por reglas</h3>
+      <p>A diferencia de las dictaduras clásicas, este tipo de líder llega al poder mediante elecciones legítimas. El cambio de régimen ocurre después: usando mayorías legislativas, reformas constitucionales o reinterpretaciones judiciales para eliminar los controles (jueces independientes, prensa libre, oposición, límites de reelección).</p>
+    </div>
+
+    <div class="card">
+      <span class="tag">2 · EL ROL DEL POPULISMO</span>
+      <h3>"El pueblo" como argumento</h3>
+      <p>El populismo se usa como justificación: se presenta cualquier límite institucional como un obstáculo impuesto por "élites" contra la "voluntad popular". Así, debilitar contrapesos se vende como un acto de democracia directa, cuando en realidad reduce la capacidad futura de la ciudadanía de corregir al gobernante.</p>
+    </div>
+
+    <div class="card">
+      <span class="tag">3 · EROSIÓN GRADUAL</span>
+      <h3>Nadie nota el momento exacto</h3>
+      <p>El desmantelamiento no ocurre en un solo día. Es una acumulación de decisiones pequeñas —un nombramiento, una reforma, una ley— que, vistas por separado, parecen defendibles. Solo en retrospectiva se ve el patrón completo.</p>
+    </div>
+
+    <div class="card">
+      <span class="tag">4 · CIUDADANÍA "FÁCIL DE ILUSIONAR"</span>
+      <h3>El papel de la sociedad</h3>
+      <p>Una parte central del análisis es que este proceso solo funciona si la ciudadanía no logra interpretar a tiempo lo que está ocurriendo, distraída por promesas inmediatas, polarización o desinformación. La capacidad crítica de la sociedad es, según el libro, la última línea de defensa.</p>
+    </div>
+
+    <div class="card gold">
+      <span class="tag">5 · MENSAJE FINAL</span>
+      <h3>Una advertencia, no una sentencia</h3>
+      <p>El libro se presenta como una ventana de reflexión sobre "cómo mueren las democracias" en la región, no como un diagnóstico irreversible: el conocimiento de estos patrones es, en sí mismo, una herramienta para reconocerlos y frenarlos a tiempo.</p>
+    </div>
+  </section>
+
+  <!-- GLOSARIO -->
+  <section class="screen" id="glosario">
+    <h2>Glosario de conceptos</h2>
+
+    <div class="term">
+      <div class="word" onclick="this.parentElement.classList.toggle('open')">Democratic blending <span class="arrow">▶</span></div>
+      <div class="def">Concepto propuesto por Gaona para describir la mezcla de elementos democráticos (elecciones, discurso de legitimidad popular) con prácticas autoritarias (concentración de poder, debilitamiento de jueces y prensa). El resultado es un régimen híbrido que conserva la fachada democrática mientras pierde su contenido real.</div>
+    </div>
+
+    <div class="term">
+      <div class="word" onclick="this.parentElement.classList.toggle('open')">Desmantelamiento democrático <span class="arrow">▶</span></div>
+      <div class="def">Proceso de debilitamiento progresivo de las instituciones que limitan el poder (separación de poderes, justicia independiente, libertad de prensa, elecciones competitivas), usando mecanismos formalmente legales en lugar de rupturas violentas.</div>
+    </div>
+
+    <div class="term">
+      <div class="word" onclick="this.parentElement.classList.toggle('open')">Populismo constitucional <span class="arrow">▶</span></div>
+      <div class="def">Uso del lenguaje y los mecanismos constitucionales (referendos, reformas, asambleas constituyentes) para legitimar cambios que en la práctica reducen los controles al poder ejecutivo, presentándolos como "devolverle el poder al pueblo".</div>
+    </div>
+
+    <div class="term">
+      <div class="word" onclick="this.parentElement.classList.toggle('open')">Dictador-demócrata <span class="arrow">▶</span></div>
+      <div class="def">Figura central del libro: un gobernante que accede al poder por la vía electoral pero gobierna progresivamente sin los límites propios de una democracia, manteniendo elecciones (a menudo desiguales) como única fuente de legitimidad mientras elimina otros controles.</div>
+    </div>
+
+    <div class="term">
+      <div class="word" onclick="this.parentElement.classList.toggle('open')">Razonamiento legal comparado <span class="arrow">▶</span></div>
+      <div class="def">Metodología del libro: analizar casos de distintos países y épocas para identificar patrones comunes en cómo se interpretan y usan (o abusan de) las normas constitucionales para concentrar poder.</div>
+    </div>
+
+    <div class="term">
+      <div class="word" onclick="this.parentElement.classList.toggle('open')">Última generación de derechos humanos <span class="arrow">▶</span></div>
+      <div class="def">Referencia a marcos de derechos más recientes (por ejemplo, relacionados con migración, tecnología o crisis democráticas) que el autor incorpora al análisis constitucional tradicional para entender los desafíos actuales de la región.</div>
+    </div>
+
+    <p class="source-note">Definiciones elaboradas con fines educativos a partir de la presentación pública del libro; no sustituyen las definiciones técnicas que desarrolla el autor en la obra.</p>
+  </section>
+
+  <!-- QUIZ -->
+  <section class="screen" id="quiz">
+    <h2>Pon a prueba lo que aprendiste</h2>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div id="quizContainer"></div>
+    <div id="scoreContainer" style="display:none;"></div>
+  </section>
+
+  <!-- AUTOR -->
+  <section class="screen" id="autor">
+    <h2>Sobre el autor</h2>
+    <div class="author-box">
+      <div class="icon">⚖️</div>
+      <div>
+        <h3 style="margin-top:0;">J. Mauricio Gaona</h3>
+        <p>Jurista y académico colombiano, doctor en Derecho (S.J.D.) por la Universidad de California, Los Ángeles (UCLA), con estancias de investigación en Harvard y la Universidad de Bolonia.</p>
+      </div>
+    </div>
+    <div class="card">
+      <span class="tag">TRAYECTORIA</span>
+      <p>Ha sido Asesor de la Fiscalía General de Colombia, Contralor Nacional Delegado y Secretario Privado del Presidente del Consejo de Estado. Sus trabajos han sido publicados y referenciados por universidades como Oxford, NYU y Columbia.</p>
+    </div>
+    <div class="card gold">
+      <span class="tag">RECONOCIMIENTOS</span>
+      <p>Ha sido distinguido como Oppenheimer Scholar, O'Brien Fellow y becario Vanier Canada. Como columnista y analista internacional ha colaborado con medios como The Hill, El País América, El Espectador, El Tiempo, Semana y El Colombiano, entre otros.</p>
+    </div>
+    <div class="card">
+      <span class="tag">FAMILIA Y LEGADO</span>
+      <p>Es hijo del magistrado Manuel Gaona, de la Corte Suprema de Justicia de Colombia, un antecedente que conecta su trabajo académico con la defensa histórica del orden constitucional en el país.</p>
+    </div>
+    <div class="card">
+      <span class="tag">LA OBRA</span>
+      <p><strong>"La Constitución soy yo: cuando la norma es el arma que desmantela la democracia"</strong>, publicado por Editorial Crítica, disponible en librerías y formato digital en Colombia.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  Aplicación educativa no oficial, basada en información pública sobre la obra.<br>
+  Desarrollada por Vibras Positivas HM — Derechos de Autor Reservados
+</footer>
+
+<script>
+  // Tabs
+  const tabs = document.querySelectorAll('nav.tabs button');
+  const screens = document.querySelectorAll('.screen');
+  tabs.forEach(tab=>{
+    tab.addEventListener('click', ()=>{
+      tabs.forEach(t=>t.classList.remove('active'));
+      screens.forEach(s=>s.classList.remove('active'));
+      tab.classList.add('active');
+      document.getElementById(tab.dataset.tab).classList.add('active');
+    });
+  });
+
+  // Reloj Colombia (UTC-5)
+  function updateClock(){
+    const now = new Date();
+    const utc = now.getTime() + (now.getTimezoneOffset()*60000);
+    const co = new Date(utc - 5*3600000);
+    const opts = {weekday:'long', day:'numeric', month:'long', hour:'2-digit', minute:'2-digit'};
+    const fmt = co.toLocaleString('es-CO', {hour:'2-digit', minute:'2-digit', hour12:true});
+    const dateFmt = co.toLocaleDateString('es-CO', {weekday:'long', day:'numeric', month:'long', year:'numeric'});
+    document.getElementById('clock').textContent = `🇨🇴 ${dateFmt} · ${fmt}`;
+  }
+  updateClock();
+  setInterval(updateClock, 30000);
+
+  // Quiz data
+  const quizData = [
+    {
+      q: "Según el libro, ¿cómo suelen llegar al poder los nuevos regímenes que desmantelan la democracia?",
+      options: [
+        "Mediante golpes militares clásicos",
+        "A través de elecciones democráticas legítimas",
+        "Por invasión de un país extranjero",
+        "Mediante un golpe de Estado parlamentario inmediato"
+      ],
+      correct: 1,
+      explain: "El libro plantea que las nuevas formas de autoritarismo no llegan con 'golpes de cuartel', sino democráticamente, ganando elecciones y luego usando las propias normas para concentrar poder."
+    },
+    {
+      q: "¿Qué significa el título 'La Constitución soy yo'?",
+      options: [
+        "Que el autor escribió la nueva Constitución de su país",
+        "Que el gobernante se identifica a sí mismo con la norma suprema, anulando sus límites",
+        "Que cada ciudadano debe interpretar la Constitución a su manera",
+        "Una frase histórica sin relación con el contenido del libro"
+      ],
+      correct: 1,
+      explain: "El título describe el momento en que el gobernante se convierte en la propia Constitución: lo que él decide se presenta como ley suprema, eliminando los límites que la norma debería imponerle."
+    },
+    {
+      q: "¿Qué papel juega el populismo en el desmantelamiento democrático según el libro?",
+      options: [
+        "Ninguno, el populismo es ajeno al tema",
+        "Sirve como argumento para presentar el debilitamiento de controles institucionales como un acto de 'devolverle el poder al pueblo'",
+        "Solo se usa para ganar elecciones, nunca después de gobernar",
+        "Es exclusivo de gobiernos de un solo signo político"
+      ],
+      correct: 1,
+      explain: "El populismo se usa como justificación retórica: cualquier control institucional se presenta como un obstáculo de 'élites' frente a la voluntad popular, legitimando su eliminación."
+    },
+    {
+      q: "¿Por qué la ciudadanía suele tardar en reconocer este proceso?",
+      options: [
+        "Porque ocurre de un día para otro, sin previo aviso",
+        "Porque es un proceso gradual de pasos individuales que, vistos por separado, parecen normales",
+        "Porque está prohibido hablar del tema",
+        "Porque solo afecta a otros países, nunca al propio"
+      ],
+      correct: 1,
+      explain: "El libro destaca que la erosión es acumulativa: cada decisión individual puede parecer defendible, y solo en retrospectiva se hace visible el patrón completo del desmantelamiento."
+    },
+    {
+      q: "¿Cuál es, según el libro, la última línea de defensa frente a este fenómeno?",
+      options: [
+        "La intervención de otros países",
+        "La capacidad crítica e informada de la ciudadanía",
+        "El ejército",
+        "Las redes sociales sin ningún tipo de análisis"
+      ],
+      correct: 1,
+      explain: "El libro enfatiza que reconocer estos patrones a tiempo —es decir, la capacidad crítica de la sociedad para interpretar lo que ocurre— es la herramienta clave para frenar el desmantelamiento democrático."
+    }
+  ];
+
+  let current = 0;
+  let score = 0;
+
+  function renderQuiz(){
+    const container = document.getElementById('quizContainer');
+    const scoreContainer = document.getElementById('scoreContainer');
+    const progressFill = document.getElementById('progressFill');
+
+    if(current >= quizData.length){
+      container.style.display='none';
+      scoreContainer.style.display='block';
+      progressFill.style.width='100%';
+      const pct = Math.round((score/quizData.length)*100);
+      let msg = "";
+      if(pct === 100) msg = "¡Excelente! Tienes una comprensión sólida de las tesis del libro.";
+      else if(pct >= 60) msg = "¡Buen trabajo! Repasa la sección de Tesis para afianzar algunos puntos.";
+      else msg = "Te recomendamos revisar la sección 'Tesis' y 'Glosario' antes de repetir el quiz.";
+
+      scoreContainer.innerHTML = `
+        <div class="score-box">
+          <div class="big">${score}/${quizData.length}</div>
+          <p style="text-align:center; margin-top:8px;">${msg}</p>
+          <button class="btn" onclick="restartQuiz()">Repetir quiz</button>
+        </div>
+      `;
+      return;
+    }
+
+    progressFill.style.width = `${(current/quizData.length)*100}%`;
+
+    const item = quizData[current];
+    container.innerHTML = `
+      <div class="quiz-q">
+        <p class="question">${current+1}. ${item.q}</p>
+        ${item.options.map((opt,i)=>`<button class="opt" data-idx="${i}">${opt}</button>`).join('')}
+        <div class="explain" id="explainBox">${item.explain}</div>
+        <button class="btn outline" id="nextBtn" style="display:none;">Siguiente</button>
+      </div>
+    `;
+
+    container.querySelectorAll('.opt').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const idx = parseInt(btn.dataset.idx);
+        container.querySelectorAll('.opt').forEach(b=>b.disabled=true);
+        if(idx === item.correct){
+          btn.classList.add('correct');
+          score++;
+        } else {
+          btn.classList.add('wrong');
+          container.querySelectorAll('.opt')[item.correct].classList.add('correct');
+        }
+        document.getElementById('explainBox').classList.add('show');
+        document.getElementById('nextBtn').style.display='inline-block';
+      });
+    });
+
+    document.getElementById('nextBtn').addEventListener('click', ()=>{
+      current++;
+      renderQuiz();
+    });
+  }
+
+  function restartQuiz(){
+    current = 0;
+    score = 0;
+    document.getElementById('scoreContainer').style.display='none';
+    document.getElementById('quizContainer').style.display='block';
+    renderQuiz();
+  }
+
+  renderQuiz();
+
+  // Service Worker
+  if('serviceWorker' in navigator){
+    window.addEventListener('load', ()=>{
+      navigator.serviceWorker.register('sw.js').catch(()=>{});
+    });
+  }
+</script>
+</body>
+</html>
